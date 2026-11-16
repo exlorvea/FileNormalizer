@@ -115,4 +115,4 @@ Les noms produits visent une bonne compatibilité avec les systèmes Linux, macO
 
 ## Licence
 
-Licence à définir avant publication.
+GPL-3.0-or-later
