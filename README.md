@@ -4,6 +4,12 @@
 
 Il fonctionne sans dépendance externe, avec Windows PowerShell 5.1 et PowerShell 7.
 
+![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)
+![License](https://img.shields.io/badge/License-GPLv3-blue)
+![Version](https://img.shields.io/badge/Version-1.2.0-green)
+![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
+
 ## Fonctionnalités
 
 - Suppression des accents et translittération de certains caractères.
