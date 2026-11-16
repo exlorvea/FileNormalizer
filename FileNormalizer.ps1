@@ -1,5 +1,7 @@
 
 # FileNormalizer
+# Copyright (C) 2026 exlorvea
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Version 1.2.0
 # Normalise les noms de fichiers pour Windows, Linux et macOS.
 # Par defaut, aucune modification n'est effectuee.
