@@ -1,124 +1,117 @@
 # FileNormalizer
 
-**FileNormalizer** est un script PowerShell permettant de normaliser automatiquement les noms de fichiers afin d'améliorer leur compatibilité entre Windows, Linux, macOS et les environnements web.
-
-Il fonctionne sans dépendance externe, avec Windows PowerShell 5.1 et PowerShell 7.
-
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/License-GPLv3-blue)
 ![Version](https://img.shields.io/badge/Version-1.2.0-green)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-brightgreen)
 
-## Fonctionnalités
+**FileNormalizer** is a lightweight PowerShell script designed to normalize filenames for better compatibility across Windows, Linux, macOS, and web environments.
 
-- Suppression des accents et translittération de certains caractères.
-- Conversion des noms en minuscules (`snake_case`).
-- Remplacement des espaces, `%20` et `+` par des underscores (`_`).
-- Conservation des tirets simples (`-`).
-- Nettoyage des caractères spéciaux.
-- Réduction des séparateurs répétés.
-- Prévention des collisions avec suffixes `_001`, `_002`, etc.
-- Protection contre les noms réservés de Windows.
-- Prévisualisation avant modification.
-- Traitement récursif facultatif des sous-dossiers.
-- Journal CSV des renommages effectués.
+It requires no external dependencies and supports Windows PowerShell 5.1 and PowerShell 7.
 
-## Exemples
+## Features
 
-| Avant | Après |
+- Removes accents and transliterates common special characters.
+- Converts filenames to lowercase `snake_case`.
+- Replaces spaces, `%20`, and `+` with underscores (`_`).
+- Preserves single hyphens (`-`).
+- Removes unsupported special characters.
+- Normalizes repeated separators.
+- Prevents filename collisions using numerical suffixes (`_001`, `_002`, etc.).
+- Handles reserved Windows filenames.
+- Provides a preview before applying changes.
+- Supports recursive file processing.
+- Generates a CSV log of completed renaming operations.
+
+## Examples
+
+| Original filename | Normalized filename |
 |---|---|
-| `Mon Super Fichier.JPG` | `mon_super_fichier.jpg` |
+| `My Super File.JPG` | `my_super_file.jpg` |
 | `P13-01.PNG` | `p13-01.png` |
-| `Photo%20de+Vacances.jpg` | `photo_de_vacances.jpg` |
+| `Holiday%20Photos+2026.jpg` | `holiday_photos_2026.jpg` |
 | `Été 2026.pdf` | `ete_2026.pdf` |
-| `Mon---Fichier.png` | `mon-fichier.png` |
-| `Rapport (Final).PDF` | `rapport_final.pdf` |
+| `My---File.png` | `my-file.png` |
+| `Final Report (2).PDF` | `final_report_2.pdf` |
 | `CON.txt` | `_con.txt` |
 
 ## Installation
 
-1. Télécharger `FileNormalizer.ps1`.
-2. Enregistrer le script dans le dossier de votre choix.
-3. Ouvrir PowerShell.
+1. Download `FileNormalizer.ps1` from this repository.
+2. Save the script to a directory of your choice.
+3. Open PowerShell in that directory.
 
-Aucun logiciel supplémentaire n'est nécessaire.
+No additional software or modules are required.
 
-Si l'exécution des scripts est bloquée, il est possible de l'autoriser temporairement pour la session PowerShell actuelle :
+If PowerShell script execution is restricted, you can temporarily allow scripts in the current session:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
-Cette commande n'affecte pas la politique d'exécution permanente du système. Elle doit uniquement être utilisée pour des scripts dont le contenu a été vérifié.
+This change only affects the current PowerShell session. Review the script before running it.
 
-## Utilisation
+## Usage
 
-### Prévisualiser les modifications
-
-```powershell
-.\FileNormalizer.ps1 -Path "C:\MesFichiers"
-```
-
-Cette commande affiche les renommages prévus sans modifier les fichiers.
-
-### Appliquer les modifications
+### Preview changes
 
 ```powershell
-.\FileNormalizer.ps1 -Path "C:\MesFichiers" -Apply
+.\FileNormalizer.ps1 -Path "C:\MyFiles"
 ```
 
-### Traiter les sous-dossiers
+Displays the proposed changes without modifying any files.
+
+### Apply changes
 
 ```powershell
-.\FileNormalizer.ps1 -Path "C:\MesFichiers" -Recurse -Apply
+.\FileNormalizer.ps1 -Path "C:\MyFiles" -Apply
 ```
 
-Les fichiers contenus dans les sous-dossiers seront traités, mais les dossiers eux-mêmes ne seront pas renommés.
+### Process subdirectories
 
-## Paramètres
+```powershell
+.\FileNormalizer.ps1 -Path "C:\MyFiles" -Recurse -Apply
+```
 
-| Paramètre | Description |
+The `-Recurse` parameter processes files inside subdirectories but does not rename the directories themselves.
+
+## Parameters
+
+| Parameter | Description |
 |---|---|
-| `-Path` | Dossier à traiter. Par défaut : dossier courant. |
-| `-Recurse` | Inclut les fichiers des sous-dossiers. |
-| `-Apply` | Applique les renommages. Sans ce paramètre, seul un aperçu est affiché. |
+| `-Path` | Target directory. Defaults to the current directory. |
+| `-Recurse` | Includes files in subdirectories. |
+| `-Apply` | Applies the changes. Without it, only a preview is displayed. |
 
-## Sécurité
+## Safety
 
-FileNormalizer ne supprime pas volontairement de fichiers et ne modifie pas leur contenu.
+FileNormalizer does not intentionally delete files or modify their contents.
 
-Les renommages ne sont appliqués qu'avec le paramètre `-Apply`.
+Renaming operations are only performed when the `-Apply` parameter is specified.
 
-Les collisions sont traitées par l'ajout de suffixes numériques. Un journal CSV est généré dans le dossier temporaire de Windows lors des modifications.
+Filename collisions are handled by adding numerical suffixes. A CSV log containing the original and new file paths is generated in the Windows temporary directory.
 
-**Il est recommandé de tester le script sur une copie de ses fichiers avant toute utilisation importante.**
+**Always test the script on a copy of your files before processing important data.**
 
 ## Limitations
 
-- Les dossiers ne sont pas renommés.
-- Les extensions sont normalisées en minuscules, sans conversion du format réel.
-- La translittération de certains alphabets non latins n'est pas prise en charge.
-- Le journal CSV ne constitue pas un mécanisme automatique d'annulation.
-- Certains cas particuliers de collisions et de longueur de chemin peuvent nécessiter une intervention manuelle.
+- Directory names are not modified.
+- File extensions are converted to lowercase without changing the actual file format.
+- Full transliteration of non-Latin alphabets is not supported.
+- CSV logs do not provide automatic rollback functionality.
+- Some edge cases involving filename collisions or path lengths may require manual intervention.
 
-## Compatibilité
+## Compatibility
 
+- Windows 10 / 11
 - Windows PowerShell 5.1
 - PowerShell 7
-- Windows 10 et 11
 
-Les noms produits visent une bonne compatibilité avec les systèmes Linux, macOS et les serveurs web.
+The resulting filenames are designed for broad compatibility with Linux, macOS, NAS devices, and web servers.
 
-## Version
+## License
 
-**1.2.0**
+This project is licensed under the **GNU General Public License v3.0 or later (GPL-3.0-or-later)**.
 
-- Conservation des tirets simples.
-- Normalisation des tirets multiples.
-- Nettoyage des noms en minuscules.
-- Prévisualisation et journalisation des modifications.
-
-## Licence
-
-GPL-3.0-or-later
+See the [LICENSE](LICENSE) file for details.
